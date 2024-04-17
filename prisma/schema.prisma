@@ -22,4 +22,36 @@ model User {
   contactNo   String
   address     String
   profileImg  String
+  books   Book[]
+  reviewAndRatings  ReviewAndRating[]
+}
+
+model Category{
+  id          String      @id @default(uuid())
+  title        String
+  books   Book[]
+}
+
+model Book {
+  id              String      @id @default(uuid())
+  title           String
+  author          String
+  price           Float
+  genre           String
+  publicationDate String
+  categoryId      String   
+  category        Category    @relation(fields: [categoryId], references: [id])
+  userId          String
+  user            User       @relation(fields: [userId], references: [id])
+  reviewAndRatings ReviewAndRating[]
+}
+
+model ReviewAndRating {
+  id          String      @id @default(uuid())
+  review      String
+  rating      Int         
+  userId      String      
+  user        User        @relation(fields: [userId], references: [id])
+  bookId      String      
+  book        Book        @relation(fields: [bookId], references: [id])
 }
