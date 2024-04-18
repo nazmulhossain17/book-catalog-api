@@ -18,7 +18,7 @@ model User {
   name        String
   email       String      @unique
   password    String
-  role        String      @default("customer")     
+  role        String     
   contactNo   String
   address     String
   profileImg  String
@@ -28,23 +28,25 @@ model User {
 
 model Category{
   id          String      @id @default(uuid())
-  title        String
+  title        String     @unique
   books   Book[]
 }
 
 model Book {
-  id              String      @id @default(uuid())
+  id              String             @id @default(uuid())
   title           String
   author          String
   price           Float
   genre           String
   publicationDate String
-  categoryId      String   
-  category        Category    @relation(fields: [categoryId], references: [id])
+  categoryTitle   String
+  category        Category           @relation(fields: [categoryTitle], references: [title])
+  user            User               @relation(fields: [userId], references: [id])
   userId          String
-  user            User       @relation(fields: [userId], references: [id])
   reviewAndRatings ReviewAndRating[]
 }
+
+
 
 model ReviewAndRating {
   id          String      @id @default(uuid())
@@ -55,3 +57,4 @@ model ReviewAndRating {
   bookId      String      
   book        Book        @relation(fields: [bookId], references: [id])
 }
+
